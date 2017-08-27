@@ -5,10 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.dancing.bigw.lib.adapter.BaseViewHolder;
+import com.dancing.bigw.lib.adapter.ViewHolderActionListener;
 import com.dancing.bigw.tango.R;
 import com.dancing.bigw.tango.entities.Content;
-import com.dancing.bigw.tango.ui.base.adapter.BaseViewHolder;
-import com.dancing.bigw.tango.ui.base.adapter.ViewHolderActionListener;
 
 /**
  * Created by bigw on 21/08/2017.

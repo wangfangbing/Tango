@@ -56,7 +56,7 @@ class BaseFragmentSiblingViewHelper extends SiblingViewHelper {
 
     private void ensureErrorView() {
         if (mErrorView == null && mErrorPageGenerator != null) {
-            ViewStub viewStub = (ViewStub) getParentView().findViewById(R.id.vs_error);
+            ViewStub viewStub = (ViewStub) getContainer().findViewById(R.id.vs_error);
             if (viewStub != null) {
                 mErrorView = mErrorPageGenerator.generate(viewStub);
                 if (mErrorView.getParent() != null) {
@@ -84,7 +84,7 @@ class BaseFragmentSiblingViewHelper extends SiblingViewHelper {
 
     private void ensureEmptyView() {
         if (mEmptyView == null && mEmptyPageGenerator != null) {
-            ViewStub viewStub = (ViewStub) getParentView().findViewById(R.id.vs_empty);
+            ViewStub viewStub = (ViewStub) getContainer().findViewById(R.id.vs_empty);
             if (viewStub != null) {
                 mEmptyView = mEmptyPageGenerator.generate(viewStub);
                 if (mEmptyView.getParent() != null) {

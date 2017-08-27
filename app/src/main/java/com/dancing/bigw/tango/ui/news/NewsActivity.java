@@ -12,12 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.dancing.bigw.lib.adapter.BaseAdapter;
+import com.dancing.bigw.lib.adapter.BaseViewHolder;
+import com.dancing.bigw.lib.adapter.ViewHolderActionListener;
 import com.dancing.bigw.tango.R;
 import com.dancing.bigw.tango.entities.Content;
 import com.dancing.bigw.tango.entities.Title;
-import com.dancing.bigw.tango.ui.base.adapter.BaseAdapter;
-import com.dancing.bigw.tango.ui.base.adapter.BaseViewHolder;
-import com.dancing.bigw.tango.ui.base.adapter.ViewHolderActionListener;
 
 import java.util.ArrayList;
 import java.util.List;

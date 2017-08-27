@@ -8,8 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.dancing.bigw.lib.fragment.BaseFragment;
 import com.dancing.bigw.tango.R;
-import com.dancing.bigw.tango.ui.base.BaseFragment;
+
 
 import java.util.Calendar;
 

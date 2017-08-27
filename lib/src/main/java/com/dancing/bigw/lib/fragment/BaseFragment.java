@@ -21,8 +21,6 @@ import com.dancing.bigw.lib.R;
 
 public abstract class BaseFragment extends Fragment {
 
-    public static final boolean DEBUG = true;
-
     private static final int SWIPE_REFRESH_TIME_INTERVAL = 500;
 
     private boolean mLastUserVisibleHint;
@@ -112,8 +110,7 @@ public abstract class BaseFragment extends Fragment {
         //TODO set theme background color for mSwipeRefreshLayout
 
         mSiblingViewHelper = BaseFragmentSiblingViewHelper.create(inflater, mSwipeRefreshLayout);
-        View normalPageView = inflateNormalPageView(inflater, mSiblingViewHelper.getParentView(), savedInstanceState);
-
+        View normalPageView = inflateNormalPageView(inflater, mSiblingViewHelper.getContainer(), savedInstanceState);
         mSiblingViewHelper.setNormalView(normalPageView);
         mSiblingViewHelper.setEmptyPageGenerator(getEmptyPageGenerator());
         mSiblingViewHelper.setErrorPageGenerator(getErrorPageGenerator());

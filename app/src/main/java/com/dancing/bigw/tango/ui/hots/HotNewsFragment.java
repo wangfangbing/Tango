@@ -11,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.dancing.bigw.lib.adapter.autopager.AutoPagerAdapter;
+import com.dancing.bigw.lib.fragment.BaseFragment;
 import com.dancing.bigw.tango.R;
 import com.dancing.bigw.tango.entities.Title;
-import com.dancing.bigw.tango.ui.base.BaseFragment;
-import com.dancing.bigw.tango.ui.base.adapter.autopager.AutoPagerAdapter;
 import com.dancing.bigw.tango.ui.news.TitleViewHolder;
 
 import java.util.ArrayList;

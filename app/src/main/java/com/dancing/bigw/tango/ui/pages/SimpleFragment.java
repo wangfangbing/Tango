@@ -3,14 +3,13 @@ package com.dancing.bigw.tango.ui.pages;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.dancing.bigw.lib.fragment.BaseFragment;
 import com.dancing.bigw.tango.R;
-import com.dancing.bigw.tango.ui.base.BaseFragment;
 
 /**
  * Created by bigw on 21/08/2017.
@@ -34,10 +33,9 @@ public class SimpleFragment extends BaseFragment {
         mTitle = getArguments().getString("title");
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_simple, container, false);
+    protected View inflateNormalPageView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_simple, parent, false);
     }
 
     @Override
@@ -51,9 +49,5 @@ public class SimpleFragment extends BaseFragment {
     @Override
     protected void onFragmentVisibilityChanged(boolean visible) {
         super.onFragmentVisibilityChanged(visible);
-
-        if (DEBUG) {
-            Log.d(TAG, mTitle + " onFragmentVisibilityChanged visible = " + visible);
-        }
     }
 }

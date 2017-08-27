@@ -28,7 +28,7 @@ public class FooterSiblingViewHelper extends SiblingViewHelper {
     }
 
     public View getItemView() {
-        return getParentView();
+        return getContainer();
     }
 
     public void setFooterViewGenerators(AutoPagerAdapter.FooterViewItem item) {

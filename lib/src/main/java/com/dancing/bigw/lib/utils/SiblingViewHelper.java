@@ -12,19 +12,19 @@ public class SiblingViewHelper {
 
     private SparseArray<View> mSiblings = new SparseArray<>(5);
 
-    private ViewGroup mParentView;
+    private ViewGroup mContainer;
 
     public SiblingViewHelper(ViewGroup parent) {
-        mParentView = parent;
+        mContainer = parent;
     }
 
-    public ViewGroup getParentView() {
-        return this.mParentView;
+    public ViewGroup getContainer() {
+        return this.mContainer;
     }
 
     public void addView(View childView) {
         if (trackView(childView)) {
-            mParentView.addView(childView);
+            mContainer.addView(childView);
         }
     }
 
