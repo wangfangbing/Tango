@@ -27,6 +27,7 @@ public class AutoPagerAdapter extends BaseAdapter {
         void onAutoPager(int nextPage, int count);
     }
 
+    //TODO enable the disable feature
     private boolean mEnable;
 
     private FooterViewItem mFooterViewItem = new FooterViewItem();

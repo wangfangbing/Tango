@@ -3,7 +3,7 @@ package com.dancing.bigw.lib.adapter.autopager;
 /**
  * Created by bigw on 27/08/2017.
  */
-public class FooterViewItem {
+class FooterViewItem {
     public static final int OPTION_SET_ITEM = 1;
     public static final int OPTION_SET_ITEMS = 2;
     public static final int OPTION_APPEND_ITEM = 4;

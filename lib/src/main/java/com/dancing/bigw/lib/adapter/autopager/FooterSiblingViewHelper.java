@@ -13,7 +13,7 @@ import com.dancing.bigw.lib.utils.SiblingViewHelper;
  * Created by bigw on 27/08/2017.
  */
 
-public class FooterSiblingViewHelper extends SiblingViewHelper {
+class FooterSiblingViewHelper extends SiblingViewHelper {
 
     public static FooterSiblingViewHelper create(LayoutInflater inflater, ViewGroup parent) {
         ViewGroup itemView = (ViewGroup) inflater.inflate(R.layout.layout_footer_view_item, parent, false);
