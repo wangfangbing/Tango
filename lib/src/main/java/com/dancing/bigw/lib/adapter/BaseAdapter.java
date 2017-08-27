@@ -42,10 +42,6 @@ public class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolderInfo viewHolderInfo = mViewHolderInfos.get(viewType);
         Class<? extends BaseViewHolder> viewHolderClass = viewHolderInfo.mViewHolderClass;
-        //TODO remove this code
-        if (viewHolderClass == null) {
-            throw new RuntimeException("没有register过的数据类型");
-        }
 
         try {
             Method method = viewHolderClass.getMethod(CREATE_VIEW_HOLDER_METHOD, LayoutInflater.class, ViewGroup.class);
@@ -91,12 +87,13 @@ public class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
         int generatedViewType = viewHolderInfoProvider.getViewType(item);
-        //TODO check if the generateViewType has exits int the mViewholderInfos
-
-        Class<? extends BaseViewHolder> viewHolderClass = viewHolderInfoProvider.getViewHolderClass(item);
-        ViewHolderActionListener actionListener = viewHolderInfoProvider.getActionListener(item);
-        viewHolderInfo = new ViewHolderInfo(viewHolderClass, actionListener);
-        mViewHolderInfos.put(generatedViewType, viewHolderInfo);
+        viewHolderInfo = mViewHolderInfos.get(generatedViewType);
+        if (viewHolderInfo == null) {
+            Class<? extends BaseViewHolder> viewHolderClass = viewHolderInfoProvider.getViewHolderClass(item);
+            ViewHolderActionListener actionListener = viewHolderInfoProvider.getActionListener(item);
+            viewHolderInfo = new ViewHolderInfo(viewHolderClass, actionListener);
+            mViewHolderInfos.put(generatedViewType, viewHolderInfo);
+        }
 
         return generatedViewType;
     }
