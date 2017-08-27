@@ -15,7 +15,7 @@
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_tips_error_banner_tv" />
+            android:src="@drawable/information" />
 
         <TextView
             android:id="@+id/text1"
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="error_page"
+            android:text="请求数据失败，下拉刷新下试试"
             android:textColor="@android:color/background_dark"/>
 
     </LinearLayout>

@@ -1,4 +1,4 @@
-package com.dancing.bigw.tango.ui.base;
+package com.dancing.bigw.lib.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +13,18 @@ import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dancing.bigw.tango.R;
-import com.dancing.bigw.tango.ui.base.BaseFragmentSiblingViewHelper;
+import com.dancing.bigw.lib.R;
 
 /**
  * Created by bigw on 21/08/2017.
  */
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     public static final boolean DEBUG = true;
 
     private static final int SWIPE_REFRESH_TIME_INTERVAL = 500;
 
-    public final String TAG = getClass().getSimpleName();
     private boolean mLastUserVisibleHint;
     private boolean mFragmentIsHidden;
     private boolean mShouldNotifyUserVisibleHintWhenActivityCreated;
@@ -97,9 +94,7 @@ public class BaseFragment extends Fragment {
         }
     }
 
-    protected View inflateNormalPageView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        throw new RuntimeException(getClass().getCanonicalName() + " should override generateContentView() method and return NonNull View");
-    }
+    protected abstract View inflateNormalPageView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState);
 
     /**
      * ------------------------
@@ -112,7 +107,7 @@ public class BaseFragment extends Fragment {
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mSwipeRefreshLayout = generateSwipeRefreshLayout(getContext());
         //TODO set theme background color for mSwipeRefreshLayout
 

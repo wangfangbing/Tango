@@ -1,4 +1,4 @@
-package com.dancing.bigw.lib.fragment;
+package com.dancing.bigw.lib.utils;
 
 import android.util.SparseArray;
 import android.view.View;

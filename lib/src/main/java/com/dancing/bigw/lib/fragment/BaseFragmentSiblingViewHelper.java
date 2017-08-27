@@ -1,4 +1,4 @@
-package com.dancing.bigw.tango.ui.base;
+package com.dancing.bigw.lib.fragment;
 
 import android.support.annotation.DrawableRes;
 import android.view.LayoutInflater;
@@ -6,13 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 
-import com.dancing.bigw.tango.R;
+import com.dancing.bigw.lib.R;
+import com.dancing.bigw.lib.utils.SiblingViewHelper;
 
 /**
  * Created by bigw on 24/08/2017.
  */
 
-public class BaseFragmentSiblingViewHelper extends SiblingViewHelper {
+class BaseFragmentSiblingViewHelper extends SiblingViewHelper {
 
     public static BaseFragmentSiblingViewHelper create(LayoutInflater inflater, ViewGroup parent) {
         ViewGroup frameLayout = (ViewGroup) inflater.inflate(R.layout.fragment_base, parent, false);

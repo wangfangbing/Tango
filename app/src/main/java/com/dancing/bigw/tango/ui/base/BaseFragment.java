@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dancing.bigw.tango.R;
+import com.dancing.bigw.tango.ui.base.BaseFragmentSiblingViewHelper;
 
 /**
  * Created by bigw on 21/08/2017.
