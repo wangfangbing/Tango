@@ -45,6 +45,4 @@ public class BaseViewHolder<T, Listener extends ViewHolderActionListener> extend
     public Listener getActionListener() {
         return this.mActionListener;
     }
-
-    //TODO define a static method named create with ViewHolder return type
 }

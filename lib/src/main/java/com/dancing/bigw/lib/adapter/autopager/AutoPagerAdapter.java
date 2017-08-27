@@ -2,15 +2,11 @@ package com.dancing.bigw.lib.adapter.autopager;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewStub;
 
 import com.dancing.bigw.lib.R;
 import com.dancing.bigw.lib.adapter.BaseAdapter;
-import com.dancing.bigw.lib.adapter.BaseViewHolder;
-import com.dancing.bigw.lib.adapter.ViewHolderActionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,48 +61,6 @@ public class AutoPagerAdapter extends BaseAdapter {
         mFooterViewItem.setLoadingViewGenerator(getLoadingViewGenerator());
     }
 
-    private static class FooterViewHolder extends BaseViewHolder<FooterViewItem, ViewHolderActionListener> {
-        private FooterSiblingViewHelper mSiblingViewHelper;
-
-        public FooterViewHolder(View itemView, FooterSiblingViewHelper siblingViewHelper) {
-            super(itemView);
-            this.mSiblingViewHelper = siblingViewHelper;
-        }
-
-        @Override
-        public void bind(FooterViewItem item, int position) {
-            super.bind(item, position);
-
-            if (mSiblingViewHelper == null) {
-                return;
-            }
-
-            mSiblingViewHelper.setFooterViewGenerators(item);
-
-            switch (item.mPendingState) {
-                case FooterViewItem.PENDING_STATE_END:
-                    mSiblingViewHelper.bringEndViewToFront();
-                    break;
-                case FooterViewItem.PENDING_STATE_ERROR:
-                    mSiblingViewHelper.bringErrorViewToFront();
-                    break;
-                case FooterViewItem.PENDING_STATE_LOAD_MORE:
-                    mSiblingViewHelper.bringLoadingViewToFront();
-                    if (!item.isLoading() && item.getAutoPagerListener() != null) {
-                        item.setIsLoading(true);
-                        item.getAutoPagerListener().onAutoPager(item.getNextPage(), item.getPageSize());
-                    }
-                    break;
-            }
-        }
-
-        public static FooterViewHolder create(LayoutInflater inflater, ViewGroup parent) {
-            FooterSiblingViewHelper viewHelper = FooterSiblingViewHelper.create(inflater, parent);
-            View itemView = viewHelper.getItemView();
-            return new FooterViewHolder(itemView, viewHelper);
-        }
-    }
-
     private void handleDataSetChange(FooterViewItem footerViewItem, int effectedItemCount) {
         footerViewItem.updateState(effectedItemCount);
         footerViewItem.setIsLoading(false);
@@ -143,7 +97,6 @@ public class AutoPagerAdapter extends BaseAdapter {
         private static final int OPTION_REMOVE_ITEMS = 64;
 
         private static final int PENDING_STATE_END = 1;
-        private static final int PENDING_STATE_LOAD_MORE = 2;
         private static final int PENDING_STATE_ERROR = 4;
         private static final int PENDING_STATE_REMOVE_FOOTER = 8;
 
@@ -211,7 +164,7 @@ public class AutoPagerAdapter extends BaseAdapter {
 
 
         private int mOption;
-        private int mPendingState = PENDING_STATE_LOAD_MORE;
+        private int mPendingState = com.dancing.bigw.lib.adapter.autopager.FooterViewItem.PENDING_STATE_LOAD_MORE;
 
         public void setOption(int option) {
             this.mOption = option;
@@ -223,7 +176,7 @@ public class AutoPagerAdapter extends BaseAdapter {
 
         public void updateState(int effectedItemCount) {
             if (mOption == OPTION_SET_ITEM || mOption == OPTION_SET_ITEMS) {
-                mPendingState = PENDING_STATE_LOAD_MORE;
+                mPendingState = com.dancing.bigw.lib.adapter.autopager.FooterViewItem.PENDING_STATE_LOAD_MORE;
                 mNextPage = 1;
 
             } else if (mOption == OPTION_APPEND_ITEM || mOption == OPTION_INSERT_ITEM || mOption == OPTION_INSERT_ITEMS) {
@@ -233,7 +186,7 @@ public class AutoPagerAdapter extends BaseAdapter {
                 mNextPage += 1;
 
                 if (effectedItemCount > 0) {
-                    mPendingState = PENDING_STATE_LOAD_MORE;
+                    mPendingState = com.dancing.bigw.lib.adapter.autopager.FooterViewItem.PENDING_STATE_LOAD_MORE;
                 } else {
                     mPendingState = PENDING_STATE_END;
                 }
