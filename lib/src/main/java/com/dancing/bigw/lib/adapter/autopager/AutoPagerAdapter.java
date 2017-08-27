@@ -19,6 +19,14 @@ public class AutoPagerAdapter extends BaseAdapter {
 
     private String TAG = getClass().getSimpleName();
 
+    public interface FooterViewGenerator {
+        View generate(ViewStub viewStub);
+    }
+
+    public interface AutoPagerListener {
+        void onAutoPager(int nextPage, int count);
+    }
+
     private boolean mEnable;
 
     private FooterViewItem mFooterViewItem = new FooterViewItem();
@@ -84,125 +92,6 @@ public class AutoPagerAdapter extends BaseAdapter {
         int footerViewIndex = getIndexOfFooterViewWithinAdapter();
         if (footerViewIndex >= 0) {
             notifyItemRangeChanged(footerViewIndex, 1);
-        }
-    }
-
-    public static class FooterViewItem {
-        private static final int OPTION_SET_ITEM = 1;
-        private static final int OPTION_SET_ITEMS = 2;
-        private static final int OPTION_APPEND_ITEM = 4;
-        private static final int OPTION_APPEND_ITEMS = 8;
-        private static final int OPTION_INSERT_ITEM = 16;
-        private static final int OPTION_INSERT_ITEMS = 32;
-        private static final int OPTION_REMOVE_ITEMS = 64;
-
-        private static final int PENDING_STATE_END = 1;
-        private static final int PENDING_STATE_ERROR = 4;
-        private static final int PENDING_STATE_REMOVE_FOOTER = 8;
-
-        private FooterViewGenerator mEndViewGenerator, mErrorViewGenerator, mLoadingViewGenerator;
-
-        private int mNextPage = 1;
-        private int mPageSize;
-
-        public int getNextPage() {
-            return mNextPage;
-        }
-
-        public int getPageSize() {
-            return mPageSize;
-        }
-
-        public void setPageSize(int pageSize) {
-            this.mPageSize = pageSize;
-        }
-
-        public AutoPagerListener getAutoPagerListener() {
-            return mAutoPagerListener;
-        }
-
-        public void setAutoPagerListener(AutoPagerListener autoPagerListener) {
-            this.mAutoPagerListener = autoPagerListener;
-        }
-
-        private AutoPagerListener mAutoPagerListener;
-
-        public boolean isLoading() {
-            return mIsLoading;
-        }
-
-        public void setIsLoading(boolean isLoading) {
-            this.mIsLoading = isLoading;
-        }
-
-        private boolean mIsLoading;
-
-        public FooterViewGenerator getEndViewGenerator() {
-            return mEndViewGenerator;
-        }
-
-        public void setEndViewGenerator(FooterViewGenerator endViewGenerator) {
-            this.mEndViewGenerator = endViewGenerator;
-        }
-
-        public FooterViewGenerator getErrorViewGenerator() {
-            return mErrorViewGenerator;
-        }
-
-        public void setErrorViewGenerator(FooterViewGenerator errorViewGenerator) {
-            this.mErrorViewGenerator = errorViewGenerator;
-        }
-
-        public FooterViewGenerator getLoadingViewGenerator() {
-            return mLoadingViewGenerator;
-        }
-
-        public void setLoadingViewGenerator(FooterViewGenerator loadingViewGenerator) {
-            this.mLoadingViewGenerator = loadingViewGenerator;
-        }
-
-
-
-        private int mOption;
-        private int mPendingState = com.dancing.bigw.lib.adapter.autopager.FooterViewItem.PENDING_STATE_LOAD_MORE;
-
-        public void setOption(int option) {
-            this.mOption = option;
-        }
-
-        public void setPendingState(int pendingState) {
-            this.mPendingState = pendingState;
-        }
-
-        public void updateState(int effectedItemCount) {
-            if (mOption == OPTION_SET_ITEM || mOption == OPTION_SET_ITEMS) {
-                mPendingState = com.dancing.bigw.lib.adapter.autopager.FooterViewItem.PENDING_STATE_LOAD_MORE;
-                mNextPage = 1;
-
-            } else if (mOption == OPTION_APPEND_ITEM || mOption == OPTION_INSERT_ITEM || mOption == OPTION_INSERT_ITEMS) {
-                //do nothing
-
-            } else if (mOption == OPTION_APPEND_ITEMS) {
-                mNextPage += 1;
-
-                if (effectedItemCount > 0) {
-                    mPendingState = com.dancing.bigw.lib.adapter.autopager.FooterViewItem.PENDING_STATE_LOAD_MORE;
-                } else {
-                    mPendingState = PENDING_STATE_END;
-                }
-
-            } else if (mOption == OPTION_REMOVE_ITEMS) {
-                mPendingState = PENDING_STATE_REMOVE_FOOTER;
-            }
-        }
-
-        public boolean shouldRemoveFooterView(boolean onlyFooterViewWithinAdapter) {
-            return onlyFooterViewWithinAdapter && mPendingState == PENDING_STATE_REMOVE_FOOTER;
-        }
-
-        @Override
-        public String toString() {
-            return "option " + mOption;
         }
     }
 
@@ -333,15 +222,6 @@ public class AutoPagerAdapter extends BaseAdapter {
             }
         }
         return -1;
-    }
-
-
-    public interface FooterViewGenerator {
-        View generate(ViewStub viewStub);
-    }
-
-    public interface AutoPagerListener {
-        void onAutoPager(int nextPage, int count);
     }
 
     protected FooterViewGenerator getEndViewGenerator() {

@@ -31,7 +31,7 @@ public class FooterSiblingViewHelper extends SiblingViewHelper {
         return getContainer();
     }
 
-    public void setFooterViewGenerators(AutoPagerAdapter.FooterViewItem item) {
+    public void setFooterViewGenerators(FooterViewItem item) {
         mEndViewCreator = item.getEndViewGenerator();
         mErrorViewCreator = item.getErrorViewGenerator();
         mLoadingViewCreator = item.getLoadingViewGenerator();

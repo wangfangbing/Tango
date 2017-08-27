@@ -10,7 +10,7 @@ import com.dancing.bigw.lib.adapter.ViewHolderActionListener;
 /**
  * Created by bigw on 27/08/2017.
  */
-class FooterViewHolder extends BaseViewHolder<AutoPagerAdapter.FooterViewItem, ViewHolderActionListener> {
+class FooterViewHolder extends BaseViewHolder<FooterViewItem, ViewHolderActionListener> {
     private FooterSiblingViewHelper mSiblingViewHelper;
 
     public FooterViewHolder(View itemView, FooterSiblingViewHelper siblingViewHelper) {
@@ -19,23 +19,21 @@ class FooterViewHolder extends BaseViewHolder<AutoPagerAdapter.FooterViewItem, V
     }
 
     @Override
-    public void bind(AutoPagerAdapter.FooterViewItem item, int position) {
+    public void bind(FooterViewItem item, int position) {
         super.bind(item, position);
-
         if (mSiblingViewHelper == null) {
             return;
         }
-
         mSiblingViewHelper.setFooterViewGenerators(item);
 
-        switch (item.mPendingState) {
-            case AutoPagerAdapter.FooterViewItem.PENDING_STATE_END:
+        switch (item.getPendingState()) {
+            case FooterViewItem.PENDING_STATE_END:
                 mSiblingViewHelper.bringEndViewToFront();
                 break;
-            case AutoPagerAdapter.FooterViewItem.PENDING_STATE_ERROR:
+            case FooterViewItem.PENDING_STATE_ERROR:
                 mSiblingViewHelper.bringErrorViewToFront();
                 break;
-            case AutoPagerAdapter.FooterViewItem.PENDING_STATE_LOAD_MORE:
+            case FooterViewItem.PENDING_STATE_LOADING:
                 mSiblingViewHelper.bringLoadingViewToFront();
                 if (!item.isLoading() && item.getAutoPagerListener() != null) {
                     item.setIsLoading(true);
