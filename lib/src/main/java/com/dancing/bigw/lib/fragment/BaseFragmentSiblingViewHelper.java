@@ -54,20 +54,6 @@ class BaseFragmentSiblingViewHelper extends SiblingViewHelper {
         bringToFront(mErrorView);
     }
 
-    private void ensureErrorView() {
-        if (mErrorView == null && mErrorPageGenerator != null) {
-            ViewStub viewStub = (ViewStub) getContainer().findViewById(R.id.vs_error);
-            if (viewStub != null) {
-                mErrorView = mErrorPageGenerator.generate(viewStub);
-                if (mErrorView.getParent() != null) {
-                    trackView(mErrorView);
-                } else {
-                    addView(mErrorView);
-                }
-            }
-        }
-    }
-
     public void bringErrorViewToFront(CharSequence tips, @DrawableRes int drawableRes) {
         ensureErrorView();
         if (mErrorPageGenerator != null) {
@@ -82,20 +68,6 @@ class BaseFragmentSiblingViewHelper extends SiblingViewHelper {
         bringToFront(mEmptyView);
     }
 
-    private void ensureEmptyView() {
-        if (mEmptyView == null && mEmptyPageGenerator != null) {
-            ViewStub viewStub = (ViewStub) getContainer().findViewById(R.id.vs_empty);
-            if (viewStub != null) {
-                mEmptyView = mEmptyPageGenerator.generate(viewStub);
-                if (mEmptyView.getParent() != null) {
-                    trackView(mEmptyView);
-                } else {
-                    addView(mEmptyView);
-                }
-            }
-        }
-    }
-
     public void bringEmptyViewToFront(CharSequence tips, @DrawableRes int drawableRes) {
         ensureEmptyView();
         if (mEmptyPageGenerator != null) {
@@ -103,5 +75,25 @@ class BaseFragmentSiblingViewHelper extends SiblingViewHelper {
             mEmptyPageGenerator.setTips(tips);
         }
         bringToFront(mEmptyView);
+    }
+
+    private void ensureErrorView() {
+        if (mErrorView == null && mErrorPageGenerator != null) {
+            ViewStub viewStub = (ViewStub) getContainer().findViewById(R.id.vs_error);
+            if (viewStub != null) {
+                mErrorView = mErrorPageGenerator.generate(viewStub);
+                trackView(mErrorView);
+            }
+        }
+    }
+
+    private void ensureEmptyView() {
+        if (mEmptyView == null && mEmptyPageGenerator != null) {
+            ViewStub viewStub = (ViewStub) getContainer().findViewById(R.id.vs_empty);
+            if (viewStub != null) {
+                mEmptyView = mEmptyPageGenerator.generate(viewStub);
+                trackView(mEmptyView);
+            }
+        }
     }
 }
