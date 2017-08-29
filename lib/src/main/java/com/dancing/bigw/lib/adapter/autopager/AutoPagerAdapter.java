@@ -7,6 +7,7 @@ import android.view.ViewStub;
 
 import com.dancing.bigw.lib.R;
 import com.dancing.bigw.lib.adapter.BaseAdapter;
+import com.dancing.bigw.lib.utils.SiblingViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import java.util.List;
 public class AutoPagerAdapter extends BaseAdapter {
 
     private String TAG = getClass().getSimpleName();
+    private FooterViewItem mFooterViewItem = new FooterViewItem();
+    private List<ErrorViewClickListener> errorViewClickListeners = new ArrayList<>();
 
     public interface FooterViewGenerator {
         View generate(ViewStub viewStub);
@@ -27,10 +30,17 @@ public class AutoPagerAdapter extends BaseAdapter {
         void onAutoPager(int nextPage, int count);
     }
 
-    //TODO enable the disable feature
-    private boolean mEnable;
+    public interface ErrorViewClickListener {
+        void onErrorViewClicked();
+    }
 
-    private FooterViewItem mFooterViewItem = new FooterViewItem();
+    public void addErrorViewClickListener(ErrorViewClickListener errorViewClickListener) {
+        mFooterViewItem.addErrorViewClickListener(errorViewClickListener);
+    }
+
+    public void setFooterViewVisible(boolean visible) {
+        mFooterViewItem.setFooterVisible(visible);
+    }
 
     public void setAutoPagerListener(AutoPagerListener autoPagerListener) {
         mFooterViewItem.setAutoPagerListener(autoPagerListener);
@@ -39,8 +49,6 @@ public class AutoPagerAdapter extends BaseAdapter {
     public void setPageSize(int pageSize) {
         mFooterViewItem.setPageSize(pageSize);
     }
-
-    //TODO set the generators
 
     public AutoPagerAdapter() {
         super();
@@ -68,6 +76,12 @@ public class AutoPagerAdapter extends BaseAdapter {
         mFooterViewItem.setEndViewGenerator(getEndViewGenerator());
         mFooterViewItem.setErrorViewGenerator(getErrorViewGenerator());
         mFooterViewItem.setLoadingViewGenerator(getLoadingViewGenerator());
+        mFooterViewItem.addErrorViewClickListener(new ErrorViewClickListener() {
+            @Override
+            public void onErrorViewClicked() {
+                setFooterViewToState(FooterSiblingViewHelper.PENDING_STATE_LOADING);
+            }
+        });
     }
 
     private void handleDataSetChange(FooterViewItem footerViewItem, int effectedItemCount) {
@@ -89,9 +103,14 @@ public class AutoPagerAdapter extends BaseAdapter {
      * 当发生错误的时候，主动show
      */
     public void showErrorFooterView() {
-        mFooterViewItem.setPendingState(FooterViewItem.PENDING_STATE_ERROR);
+        mFooterViewItem.setIsLoading(false);
+        setFooterViewToState(FooterSiblingViewHelper.PENDING_STATE_ERROR);
+    }
+
+    private void setFooterViewToState(int siblingViewPendingState) {
         int footerViewIndex = getIndexOfFooterViewWithinAdapter();
         if (footerViewIndex >= 0) {
+            mFooterViewItem.setSiblingViewPendingState(siblingViewPendingState);
             notifyItemRangeChanged(footerViewIndex, 1);
         }
     }

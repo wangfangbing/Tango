@@ -19,7 +19,6 @@ import com.dancing.bigw.tango.ui.news.TitleViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by bigw on 25/08/2017.
@@ -34,6 +33,8 @@ public class HotNewsFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private AutoPagerAdapter mAdapter;
+
+    private int counter = 0;
 
     private Handler mHandler = new Handler();
 
@@ -56,15 +57,15 @@ public class HotNewsFragment extends BaseFragment {
             @Override
             public void onAutoPager(int nextPage, int count) {
                 Log.d("AutoPager", "onAutoPager page " + nextPage + " size " + count);
-                Random random = new Random();
-                if (random.nextBoolean()) {
-                    emulateAppendItems();
+                if (counter++ % 2 == 0) {
+                    emulateAppendFailed();
                 } else {
-                    emulateAppendNone();
+                    emulateAppendItems();
                 }
             }
         });
         mAdapter.setPageSize(20);
+        mAdapter.setFooterViewVisible(true);
     }
 
     private TitleViewHolder.ActionListener mTitleActionListener = new TitleViewHolder.ActionListener() {

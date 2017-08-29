@@ -15,6 +15,10 @@ import com.dancing.bigw.lib.utils.SiblingViewHelper;
 
 class FooterSiblingViewHelper extends SiblingViewHelper {
 
+    public static final int PENDING_STATE_END = 1;
+    public static final int PENDING_STATE_ERROR = 4;
+    public static final int PENDING_STATE_LOADING = 16;
+
     public static FooterSiblingViewHelper create(LayoutInflater inflater, ViewGroup parent) {
         ViewGroup itemView = (ViewGroup) inflater.inflate(R.layout.layout_footer_view_item, parent, false);
         return new FooterSiblingViewHelper(itemView);
@@ -37,6 +41,20 @@ class FooterSiblingViewHelper extends SiblingViewHelper {
         mLoadingViewCreator = item.getLoadingViewGenerator();
     }
 
+    public void bringViewToFront(int state) {
+        switch (state) {
+            case PENDING_STATE_END:
+                bringEndViewToFront();
+                break;
+            case PENDING_STATE_ERROR:
+                bringErrorViewToFront();
+                break;
+            case PENDING_STATE_LOADING:
+                bringLoadingViewToFront();
+                break;
+        }
+    }
+
     public void bringEndViewToFront() {
         ensureEndView();
         bringToFront(mEndView);
@@ -50,6 +68,10 @@ class FooterSiblingViewHelper extends SiblingViewHelper {
     public void bringLoadingViewToFront() {
         ensureLoadingView();
         bringToFront(mLoadingView);
+    }
+
+    public View getErroView() {
+        return this.mErrorView;
     }
 
     private void ensureEndView() {

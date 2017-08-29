@@ -1,5 +1,8 @@
 package com.dancing.bigw.lib.adapter.autopager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by bigw on 27/08/2017.
  */
@@ -12,21 +15,30 @@ class FooterViewItem {
     public static final int OPTION_INSERT_ITEMS = 32;
     public static final int OPTION_REMOVE_ITEMS = 64;
 
-    public static final int PENDING_STATE_END = 1;
-    public static final int PENDING_STATE_ERROR = 4;
-    public static final int PENDING_STATE_REMOVE_FOOTER = 8;
-    public static final int PENDING_STATE_LOADING = 16;
+    private static final int DEFAULT_PAGE_SIZE = 20;
 
     private AutoPagerAdapter.FooterViewGenerator mEndViewGenerator, mErrorViewGenerator, mLoadingViewGenerator;
 
     private AutoPagerAdapter.AutoPagerListener mAutoPagerListener;
 
+    private List<AutoPagerAdapter.ErrorViewClickListener> mErrorViewClickListeners = new ArrayList<>();
+
     private int mNextPage = 1;
-    private int mPageSize;
+    private int mPageSize = DEFAULT_PAGE_SIZE;
     private boolean mIsLoading;
 
+    private boolean mFooterVisible = true;
+
     private int mOption;
-    private int mPendingState = PENDING_STATE_LOADING;
+    private int mSiblingViewPendingState = FooterSiblingViewHelper.PENDING_STATE_LOADING;
+
+    public boolean isFooterVisible() {
+        return mFooterVisible;
+    }
+
+    public void setFooterVisible(boolean footerVisible) {
+        this.mFooterVisible = footerVisible;
+    }
 
     public int getNextPage() {
         return mNextPage;
@@ -84,13 +96,9 @@ class FooterViewItem {
         this.mOption = option;
     }
 
-    public void setPendingState(int pendingState) {
-        this.mPendingState = pendingState;
-    }
-
     public void updateState(int effectedItemCount) {
         if (mOption == OPTION_SET_ITEM || mOption == OPTION_SET_ITEMS) {
-            mPendingState = PENDING_STATE_LOADING;
+            mSiblingViewPendingState = FooterSiblingViewHelper.PENDING_STATE_LOADING;
             mNextPage = 1;
 
         } else if (mOption == OPTION_APPEND_ITEM || mOption == OPTION_INSERT_ITEM || mOption == OPTION_INSERT_ITEMS) {
@@ -100,26 +108,30 @@ class FooterViewItem {
             mNextPage += 1;
 
             if (effectedItemCount > 0) {
-                mPendingState = PENDING_STATE_LOADING;
+                mSiblingViewPendingState = FooterSiblingViewHelper.PENDING_STATE_LOADING;
             } else {
-                mPendingState = PENDING_STATE_END;
+                mSiblingViewPendingState = FooterSiblingViewHelper.PENDING_STATE_END;
             }
-
-        } else if (mOption == OPTION_REMOVE_ITEMS) {
-            mPendingState = PENDING_STATE_REMOVE_FOOTER;
         }
     }
 
     public boolean shouldRemoveFooterView(boolean onlyFooterViewWithinAdapter) {
-        return onlyFooterViewWithinAdapter && mPendingState == PENDING_STATE_REMOVE_FOOTER;
+        return onlyFooterViewWithinAdapter && mOption == OPTION_REMOVE_ITEMS;
     }
 
-    public int getPendingState() {
-        return mPendingState;
+    public int getSiblingViewPendingState() {
+        return mSiblingViewPendingState;
     }
 
-    @Override
-    public String toString() {
-        return "option " + mOption;
+    public void setSiblingViewPendingState(int pendingState) {
+        this.mSiblingViewPendingState = pendingState;
+    }
+
+    public void addErrorViewClickListener(AutoPagerAdapter.ErrorViewClickListener errorViewClickListener) {
+        mErrorViewClickListeners.add(errorViewClickListener);
+    }
+
+    public List<AutoPagerAdapter.ErrorViewClickListener> getErrorViewClickListeners() {
+        return mErrorViewClickListeners;
     }
 }
